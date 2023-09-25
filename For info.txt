@@ -1,0 +1,67 @@
+// import axios from "axios";
+// axios.defaults.headers.common["x-api-key"] = "live_h2A905RVIysndf8BRqQ3XQtorbR6H8F5eKw7XCIXIhcdpS55v7e2vUHQLO5vfWgW";
+// import { fetchBreeds } from "./cat-api";
+
+
+const selectors = {
+    select: document.querySelector('.breed-select'),
+    loaderInfo: document.querySelector('.loader'),
+    errorInfo: document.querySelector('.error'),
+    catInfo: document.querySelector('.cat-info'),
+}
+
+selectors.loaderInfo.setAttribute("hidden", "hidden");
+selectors.errorInfo.setAttribute("hidden", "hidden");
+
+document.addEventListener("DOMContentLoaded", fetchBreeds);
+selectors.select.addEventListener("change", fetchCatByBreed);
+
+function fetchBreeds() {
+    const baseUrl = "https://api.thecatapi.com/v1/breeds";
+    const APIKEY = "live_h2A905RVIysndf8BRqQ3XQtorbR6H8F5eKw7XCIXIhcdpS55v7e2vUHQLO5vfWgW";
+
+    return fetch(`${baseUrl}?api_key=${APIKEY}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        
+            return response.json();
+    })
+    .then(results => {
+    // console.log(results);
+    const markup = createMarkupBreed(results);
+    selectors.select.insertAdjacentHTML("beforeend", markup);
+    })
+    .catch (error => console.log(error))
+}
+
+function createMarkupBreed(breedArr) {
+    return breedArr.map(({ id, name }) => `
+   <option value=${id}>${name}</option>
+    `).join('');
+    // console.log(breedArr);
+}
+
+function fetchCatByBreed(id) {
+    const serchUrl = `https://api.thecatapi.com/v1/images/search?breed_ids=${id}`;
+    const apiKey = "live_h2A905RVIysndf8BRqQ3XQtorbR6H8F5eKw7XCIXIhcdpS55v7e2vUHQLO5vfWgW";
+
+    return fetch(`${serchUrl}&api_key=${apiKey}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        
+            return response.json();
+        // console.log(response.json());
+    })
+    .then(results => {
+    console.log(results);
+    })
+    .catch (error => console.log(error))
+}
+
+// function createMarkup(breedId) {
+    
+// }
