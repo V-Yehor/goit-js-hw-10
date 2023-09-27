@@ -16,6 +16,7 @@ catinfoContainer.classList.add('ishidden');
 function getBreedId(event) {
   loader.classList.remove('ishidden');
   errorText.classList.add('ishidden');
+  catinfoContainer.classList.add('ishidden');
   const breedId = event.currentTarget.value;
   fetchCatByBreed(breedId)
     .then(result => {
