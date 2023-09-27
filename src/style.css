@@ -1,0 +1,7 @@
+.cat-info {
+  padding: 20px;
+}
+.ishidden {
+  visibility: hidden;
+  position: absolute;
+}
